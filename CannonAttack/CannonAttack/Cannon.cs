@@ -9,6 +9,46 @@ namespace CannonAttackTest {
 
     public sealed class Cannon {
 
+        static void Main(string[] args) {
+            bool Exit = false;
+            bool hit = false;
+            int Angle, Speed, Distance, Counter = 0;
+            char Choice;
+
+            Random rand = new Random();
+
+            Cannon cannon = new Cannon();
+
+            while (!Exit) {
+                Distance = rand.Next(1, 20000);
+                cannon.SetTarget(Distance);
+                Console.WriteLine("Target Distance: " + Distance);
+                
+                while (!hit) {
+                    Console.Write("Please Enter Angle: ");
+                    Angle = Convert.ToInt32(Console.ReadLine());
+                    Console.Write("Please Enter Speed: ");
+                    Speed = Convert.ToInt32(Console.ReadLine());
+
+                    hit = cannon.Shoot(Angle, Speed).Item1;
+                    Console.WriteLine(cannon.Shoot(Angle, Speed).Item2);
+
+                    Counter++;
+                }
+                Console.WriteLine("Hit - " + Counter);
+                Console.Write("Press Y to to play again!");
+                Choice = Char.ToLower(Console.ReadLine()[0]);
+                if (Choice == 'y') {
+                    hit = false;
+                }
+                else {
+                    Exit = true;
+                }
+            }
+            Console.WriteLine("Thank you for playing!");
+            Console.ReadKey();
+        }
+
         // Declaring Variables.
         private readonly string CANNONID = "Human";
         private string CannonID;
@@ -38,7 +78,7 @@ namespace CannonAttackTest {
         private static Cannon cannonSingletonInstance;
         static readonly object padlock = new object();
         private Cannon() {
-        
+            
         }
         
         public static Cannon GetInstance() {
