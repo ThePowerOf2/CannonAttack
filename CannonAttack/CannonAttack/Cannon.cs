@@ -10,41 +10,58 @@ namespace CannonAttackTest {
     public sealed class Cannon {
 
         static void Main(string[] args) {
+            // Declaring Variables.
             bool Exit = false;
             bool hit = false;
             int Angle, Speed, Distance, Counter = 0;
             char Choice;
 
+            // Creating a random number genorator.
             Random rand = new Random();
 
+            // Creating the cannon.
             Cannon cannon = new Cannon();
 
+            // While loop until the user chooses to exit after a game.
             while (!Exit) {
+                // Creating a radom distance and setting the target at that distance and printing it out to the user.
                 Distance = rand.Next(1, 20000);
                 cannon.SetTarget(Distance);
                 Console.WriteLine("Target Distance: " + Distance);
                 
+                // While loop until the user hits the target or gets within 50 feet of the target.
                 while (!hit) {
+                    // Asking the users angle and speed they wish to fire at.
                     Console.Write("Please Enter Angle: ");
                     Angle = Convert.ToInt32(Console.ReadLine());
                     Console.Write("Please Enter Speed: ");
                     Speed = Convert.ToInt32(Console.ReadLine());
 
+                    // Shooting the cannon and changing 'hit' to whether it hit or not and printing out where the cannon fired to.
                     hit = cannon.Shoot(Angle, Speed).Item1;
                     Console.WriteLine(cannon.Shoot(Angle, Speed).Item2);
 
+                    // Incrementing a counter to keep track of how many shots the user has taken.
                     Counter++;
                 }
-                Console.WriteLine("Hit - " + Counter);
+
+                // Printing out how many shots it took the user to hit the target and asking if they would like to play again.
+                Console.WriteLine("Hit it in " + Counter + "!");
                 Console.Write("Press Y to to play again!");
+
+                //Changing the input to lowercase and only taking the first character.
                 Choice = Char.ToLower(Console.ReadLine()[0]);
+
+                // If the user put 'y' or 'Y' then restart the game otherwise exit.
                 if (Choice == 'y') {
                     hit = false;
+                    Counter = 0;
                 }
                 else {
                     Exit = true;
                 }
             }
+            // Printing to the user thanks for playing and awaits a keypress to end the program.
             Console.WriteLine("Thank you for playing!");
             Console.ReadKey();
         }
